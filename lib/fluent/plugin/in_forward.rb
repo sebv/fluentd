@@ -159,8 +159,10 @@ module Fluent
       elsif @chunk_size_warn_limit && (chunk_size > @chunk_size_warn_limit)
         log.warn "Input chunk size is larger than 'chunk_size_warn_limit':", tag: tag, source: source_message(peeraddr), limit: @chunk_size_warn_limit, size: chunk_size
       end
+      @log.info { "UKUK in_forward on_message 3" }
 
       if entries.class == String
+        @log.info { "UKUK in_forward on_message String 4" }
         # PackedForward
         es = MessagePackEventStream.new(entries)
         es = check_and_skip_invalid_event(tag, es, peeraddr) if @skip_invalid_event
@@ -169,6 +171,7 @@ module Fluent
         option = msg[2]
 
       elsif entries.class == Array
+        @log.info { "UKUK in_forward on_message Array 4" }
         # Forward
         es = if @skip_invalid_event
                check_and_skip_invalid_event(tag, entries, peeraddr)
@@ -188,6 +191,7 @@ module Fluent
         option = msg[2]
 
       else
+        @log.info { "UKUK in_forward on_message else 4" }
         # Message
         time = msg[1]
         record = msg[2]
