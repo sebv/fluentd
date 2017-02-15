@@ -55,6 +55,7 @@ module Fluent
     end
 
     def start
+      log.info("UKUK in_forward starting")
       @loop = Coolio::Loop.new
 
       @lsock = listen
