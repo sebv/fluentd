@@ -218,14 +218,17 @@ module Fluent
     end
 
     def check_and_skip_invalid_event(tag, es, peeraddr)
+      log.warn { "AKAK message check_and_skip_invalid_event 1" }
       new_es = MultiEventStream.new
       es.each { |time, record|
         if invalid_event?(tag, time, record)
+          log.warn { "AKAK message check_and_skip_invalid_event 2" }
           log.warn "skip invalid event:", source: source_message(peeraddr), tag: tag, time: time, record: record
           next
         end
         new_es.add(time, record)
       }
+      log.warn { "AKAK message check_and_skip_invalid_event 3" }
       new_es
     end
 
