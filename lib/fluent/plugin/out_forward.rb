@@ -154,6 +154,7 @@ module Fluent
     end
 
     def start
+      log.warn("AKAK out_forward start")
       super
 
       @rand_seed = Random.new.seed
@@ -204,10 +205,12 @@ module Fluent
       wlen.times do
         @rr = (@rr + 1) % wlen
         node = @weight_array[@rr]
+        log.warn("AKAK out_forward write_objects 1")
 
         if node.available?
           begin
             send_data(node, tag, chunk)
+            log.warn("AKAK out_forward write_objects 2")
             return
           rescue
             # for load balancing during detecting crashed servers
