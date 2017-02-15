@@ -263,9 +263,11 @@ module Fluent
       end
 
       def on_connect
+        log.info("UKUK in_forward on_connect")
       end
 
       def on_read(data)
+        log.info("UKUK in_forward on_read")
         first = data[0]
         if first == '{' || first == '['
           m = method(:on_read_json)
@@ -289,6 +291,7 @@ module Fluent
       end
 
       def on_read_json(data)
+        log.info("UKUK in_forward on_read_json")
         @chunk_counter += data.bytesize
         @y << data
       rescue => e
@@ -298,6 +301,7 @@ module Fluent
       end
 
       def on_read_msgpack(data)
+        log.info("UKUK in_forward on_read_msgpack")
         @chunk_counter += data.bytesize
         @u.feed_each(data) do |obj|
           option = @on_message.call(obj, @chunk_counter, @peeraddr)
@@ -319,6 +323,7 @@ module Fluent
       end
 
       def on_close
+        log.info("UKUK in_forward on_close")
         @log.trace { "closed socket" }
       end
     end
