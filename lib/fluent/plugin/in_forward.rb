@@ -218,20 +218,14 @@ module Fluent
     end
 
     def check_and_skip_invalid_event(tag, es, peeraddr)
-      log.warn { "AKAK message check_and_skip_invalid_event 1" }
       new_es = MultiEventStream.new
-      log.warn { "AKAK message check_and_skip_invalid_event 2" }
       es.each { |time, record|
-        log.warn { "AKAK message check_and_skip_invalid_event 3" }
         if invalid_event?(tag, time, record)
-          log.warn { "AKAK message check_and_skip_invalid_event 4" }
           log.warn "skip invalid event:", source: source_message(peeraddr), tag: tag, time: time, record: record
           next
         end
-        log.warn { "AKAK message check_and_skip_invalid_event 5" }
         new_es.add(time, record)
       }
-      log.warn { "AKAK message check_and_skip_invalid_event 6" }
       new_es
     end
 
@@ -277,7 +271,6 @@ module Fluent
       end
 
       def on_connect
-        @log.info { "UKUK in_forward on_connect" }
       end
 
       def on_read(data)
@@ -305,7 +298,6 @@ module Fluent
       end
 
       def on_read_json(data)
-        @log.info { "UKUK in_forward on_read_json" }
         @chunk_counter += data.bytesize
         @y << data
       rescue => e
@@ -315,7 +307,6 @@ module Fluent
       end
 
       def on_read_msgpack(data)
-        @log.info { "UKUK in_forward on_read_msgpack" }
         @chunk_counter += data.bytesize
         @u.feed_each(data) do |obj|
           option = @on_message.call(obj, @chunk_counter, @peeraddr)
