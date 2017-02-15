@@ -162,11 +162,12 @@ module Fluent
       @log.info { "UKUK in_forward on_message 3" }
 
       if entries.class == String
-        @log.info { "UKUK in_forward on_message String 4" + tag }
+        @log.info { "UKUK in_forward on_message String 4a" + tag }
         # PackedForward
         es = MessagePackEventStream.new(entries)
         es = check_and_skip_invalid_event(tag, es, peeraddr) if @skip_invalid_event
         es = add_source_host(es, peeraddr[2]) if @source_hostname_key
+        @log.info { "UKUK in_forward on_message String 4b" + tag }
         router.emit_stream(tag, es)
         option = msg[2]
 
