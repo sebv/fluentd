@@ -137,6 +137,7 @@ module Fluent
     #   4: object option (optional)
     # }
     def on_message(msg, chunk_size, peeraddr)
+      log.info("UKUK in_forward on_message")
       if msg.nil?
         # for future TCP heartbeat_request
         return
